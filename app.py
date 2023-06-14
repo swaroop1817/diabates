@@ -39,6 +39,19 @@ def predict():
 
     else:
         return render_template('predict.html')
+    
+
+@app.route('/patient', methods=['GET','POST'])    
+def showpatient():
+    conn=sqlite3.connect('patient.db')
+    cur = conn.execute("select * from patientinfo")
+    data = []
+    for i in cur.fetchall():
+        patient = {}
+        patient['name']= i[0]
+        patient['result'] = i[1]
+        data.append(patient)
+    return render_template('showpatient.html',data=data)
 
 if __name__ =='__main__':
     app.run(host='0.0.0.0',port=5000,debug=True)                     
